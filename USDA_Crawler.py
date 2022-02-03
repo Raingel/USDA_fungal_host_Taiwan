@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 import re
 import pandas as pd
 import string
-from datetime import datetime
 
 # %%
 ROOT='./'
@@ -58,18 +57,20 @@ a_z = string.ascii_lowercase
 keyList = []
 for one in a_z:
     for two in a_z:
-        for three in a_z:
-            keyList.append(one+two+three)
+            keyList.append(one+two)
 
 # %%
 df = pd.DataFrame()
 for FungusGenus in keyList:
     for FungusSpecies in keyList: 
         dfOutput = USDA_fetch(FungusGenus=FungusGenus+"*", FungusSpecies=FungusSpecies+"*")
-        df = df.append(dfOutput)
+        df = pd.concat([df, dfOutput])
         print (FungusGenus, FungusSpecies, len(df))
 
+
+# %%
 df.to_csv('./data/USDA_Taiwan.csv', index = False)
 df.to_csv('./data/USDA_Taiwan_{}.csv'.format(datetime.today().strftime("%Y-%m-%d")), index = False)
+
 
 
