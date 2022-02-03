@@ -68,8 +68,7 @@ for FungusGenus in keyList:
         dfOutput = USDA_fetch(FungusGenus=FungusGenus+"*", FungusSpecies=FungusSpecies+"*")
         df = df.append(dfOutput)
         print (FungusGenus, FungusSpecies, len(df))
-        break
-    break
+
 df.to_csv('./data/USDA_Taiwan.csv', index = False)
 df.to_csv('./data/USDA_Taiwan_{}.csv'.format(datetime.today().strftime("%Y-%m-%d")), index = False)
 
