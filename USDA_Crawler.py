@@ -43,7 +43,7 @@ def USDA_fetch(HostGenus = '', HostSpecies = '', FungusGenus = 'Sa*', FungusSpec
             if pathogen:
                 for pathogen_name in pathogen:
                     pathogen_name=pathogen_name.replace(':','')
-                    df = df.append([{'host':now_host[0],'pathogen':pathogen_name}])
+                    df = pd.concat([df,pd.DataFrame([{'host':now_host[0],'pathogen':pathogen_name}])])
             if host:
                 now_host = host
     except Exception as e:
@@ -63,9 +63,15 @@ for one in a_z:
 df = pd.DataFrame()
 for FungusGenus in keyList:
     for FungusSpecies in keyList: 
-        dfOutput = USDA_fetch(FungusGenus=FungusGenus+"*", FungusSpecies=FungusSpecies+"*")
-        df = pd.concat([df, dfOutput])
-        print (FungusGenus, FungusSpecies, len(df))
+        for i in range(0,5):
+            try:
+                dfOutput = USDA_fetch(FungusGenus=FungusGenus+"*", FungusSpecies=FungusSpecies+"*")
+                df = pd.concat([df, dfOutput])
+                print (FungusGenus, FungusSpecies, len(df))
+                break
+            except requests.exceptions.ConnectTimeout as e:
+                print (FungusGenus, FungusSpecies, e)
+
 
 
 # %%
