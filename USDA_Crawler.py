@@ -61,7 +61,7 @@ for one in a_z:
 
 # %%
 df = pd.DataFrame()
-for FungusGenus in keyList:
+for FungusGenus in a_z:
     for FungusSpecies in keyList: 
         for i in range(0,5):
             try:
