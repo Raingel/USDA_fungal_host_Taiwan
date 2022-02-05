@@ -54,15 +54,12 @@ def USDA_fetch(HostGenus = '', HostSpecies = '', FungusGenus = 'Sa*', FungusSpec
 
 # %%
 a_z = string.ascii_lowercase
-keyList = []
-for one in a_z:
-    for two in a_z:
-            keyList.append(one+two)
+
 
 # %%
 df = pd.DataFrame()
 for FungusGenus in a_z:
-    for FungusSpecies in keyList: 
+    for FungusSpecies in a_z: 
         for i in range(0,5):
             try:
                 dfOutput = USDA_fetch(FungusGenus=FungusGenus+"*", FungusSpecies=FungusSpecies+"*")
