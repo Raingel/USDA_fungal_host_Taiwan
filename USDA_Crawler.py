@@ -66,7 +66,7 @@ for FungusGenus in a_z:
                 df = pd.concat([df, dfOutput])
                 print (FungusGenus, FungusSpecies, len(df))
                 break
-            except requests.exceptions.ConnectTimeout as e:
+            except Exception as e:
                 print (FungusGenus, FungusSpecies, e)
 
 
