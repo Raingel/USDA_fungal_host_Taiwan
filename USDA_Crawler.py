@@ -39,15 +39,17 @@ def USDA_fetch(HostGenus = '', HostSpecies = '', FungusGenus = 'Sa*', FungusSpec
         content_list = result.text.split('\n')
         for line in content_list:
             host = re.findall(r'MainHeading \'>(.*):.*',line)
-            pathogen = re.findall(r'<p class=\'Hanging \'>(.*?)Taiwan',line)
-            if pathogen:
+            pathogen = re.findall(r'<p class=\'Hanging \'>(.*?)Taiwan(.*?)</a>,</p>',line)
+            if pathogen != []:
                 for pathogen_name in pathogen:
-                    pathogen_name=pathogen_name.replace(':','')
-                    df = pd.concat([df,pd.DataFrame([{'host':now_host[0],'pathogen':pathogen_name}])])
+                    refs = re.findall(r'displayLit\(\'([0-9]*)\',\'fungushost', pathogen_name[1])
+                    ref_link = ["https://nt.ars-grin.gov/fungaldatabases/fungushost/new_rptOneLit.cfm?fungRec={}&thisError".format(r) for r in refs]
+                    pathogen_name_cln=pathogen_name[0].replace(':','')              
+                    df = pd.concat([df,pd.DataFrame([{'host':now_host[0],'pathogen':pathogen_name_cln, 'ref':"\n".join(ref_link)}])])
             if host:
                 now_host = host
     except Exception as e:
-        print (Order,e)
+        print (e)
     return df
 
 
